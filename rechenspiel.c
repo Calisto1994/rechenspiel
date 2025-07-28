@@ -16,8 +16,7 @@
 */
 
 int main(); // Hauptfunktion des Programms
-bool nextRound(); // Funktion zur Abfrage, ob der Benutzer weitermachen möchte
-bool randNums(); // Funktion zur Abfrage, ob der Benutzer mit Zufallszahlen spielen möchte
+bool getYesNo(); // Funktion zur Abfrage ja/nein
 int randomNumber(int min, int max); // Funktion zur Generierung von Zufallszahlen
 bool playsWithRandomNumbers = false; // Variable zur Steuerung, ob mit Zufallszahlen gespielt wird
 
@@ -31,7 +30,9 @@ int main () {
     int falscheAntwort = 0; // Zähler für falsche Antworten
     int anzahlRunden = 0; // Zähler für die Anzahl der Runden
 
-    if (randNums() == true) {
+
+    printf("Möchten Sie mit Zufallszahlen spielen? (j/n): ");
+    if (getYesNo() == true) {
         playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
     } else {
         playsWithRandomNumbers = false; // Ohne Zufallszahlen spielen
@@ -111,7 +112,10 @@ int main () {
             printf("Sie haben %d richtige und %d falsche Antworten gegeben.\n", richtigeAntwort, falscheAntwort);
             printf("Auf Wiedersehen!\n");
             break; // Schleife verlassen, wenn der Benutzer nicht mehr spielen möchte
-        } else if (nextRound() == false) { // Abfrage, ob der Benutzer weitermachen möchte
+        }
+        
+        printf("Möchten Sie noch eine Runde? (j/n): ");
+        if (getYesNo() == false) { // Abfrage, ob der Benutzer weitermachen möchte
             printf("Sie haben %d richtige und %d falsche Antworten in %d Runden gegeben.\n", richtigeAntwort, falscheAntwort, anzahlRunden);
             printf("Auf Wiedersehen!\n");
             break; // Schleife verlassen, wenn der Benutzer nicht mehr rechnen möchte
@@ -127,34 +131,11 @@ int main () {
     return 0; // Programm erfolgreich beendet
 }
 
-bool nextRound () {  // Abfrage, ob der Benutzer weitermachen möchte
+bool getYesNo () { // Abfrage ja/nein
     char zeichen;
 
     while (true) {
-        printf("Möchten Sie noch eine Runde? (j/n): ");
         scanf(" %c", &zeichen);
-
-        if (tolower(zeichen) == 'j') {
-            printf("\n"); // Neue Zeile für bessere Lesbarkeit
-            return true; // Ja
-        } else if (tolower(zeichen) == 'n') {
-            printf("\n"); // Neue Zeile für bessere Lesbarkeit    
-            return false; // Nein
-        } else {
-            printf("Ungültige Eingabe. Bitte geben Sie 'j' oder 'n' ein.\n");
-            while (getchar() != '\n'); // Puffer leeren
-            continue; // Schleife neu starten
-        }
-    }
-}
-
-bool randNums () { // Abfrage, ob der Benutzer mit Zufallszahlen spielen möchte
-    char zeichen;
-
-    while (true) {
-        printf("Möchten Sie mit Zufallszahlen spielen? (j/n): ");
-        scanf(" %c", &zeichen);
-
         if (tolower(zeichen) == 'j') {
             printf("\n"); // Neue Zeile für bessere Lesbarkeit
             return true; // Ja
