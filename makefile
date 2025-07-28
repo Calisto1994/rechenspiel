@@ -23,8 +23,8 @@ linux: rechenspiel.c
 	@mkdir -p ./bin/
 	@gcc -o ./bin/rechenspiel.bin rechenspiel.c
 	@strip --strip-unneeded ./bin/rechenspiel.bin
-windows: rechenspiel.c
+windows: rechenspiel_win.c
 	@echo "Building for Windows x86_64..."
 	@mkdir -p ./bin/
-	@x86_64-w64-mingw32-gcc -o ./bin/rechenspiel.exe rechenspiel.c
+	@x86_64-w64-mingw32-gcc -o ./bin/rechenspiel.exe rechenspiel_win.c
 	@strip --strip-unneeded ./bin/rechenspiel.exe
