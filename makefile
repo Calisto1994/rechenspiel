@@ -8,12 +8,12 @@ clean:
 
 install:	# Install the binary to /usr/local/bin (Linux only)
 	mkdir -p /usr/local/bin
-	cp ./bin/rechenspiel.bin /usr/local/bin/rechenspiel
-	chmod +x /usr/local/bin/rechenspiel
+	sudo cp ./bin/rechenspiel.bin /usr/local/bin/rechenspiel
+	sudo chmod +x /usr/local/bin/rechenspiel
 	make clean # Clean up after installation
 
 uninstall:	# Uninstall the binary from /usr/local/bin (Linux only)
-	rm -f /usr/local/bin/rechenspiel
+	sudo rm -f /usr/local/bin/rechenspiel
 
 linux: rechenspiel.c
 	mkdir -p ./bin/
