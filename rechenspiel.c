@@ -43,6 +43,10 @@ int main (int argc, char *argv[]) {
 
     // Überprüfen der Kommandozeilenargumente
     if (argc > 1) {
+        for(int i = 0; argv[1][i]; i++){ // Alle Zeichen des ersten Kommandozeilenarguments in Kleinbuchstaben umwandeln
+        argv[1][i] = tolower(argv[1][i]);
+        }
+
         if (strcmp(argv[1], "random") == 0) {
             printf("Es wird mit Zufallszahlen gespielt.\n");
             playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
