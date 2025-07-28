@@ -44,26 +44,47 @@ int main (int argc, char *argv[]) {
     // Überprüfen der Kommandozeilenargumente
     if (argc > 1) {
         for(int i = 0; argv[1][i]; i++){ // Alle Zeichen des ersten Kommandozeilenarguments in Kleinbuchstaben umwandeln
-        argv[1][i] = tolower(argv[1][i]);
+            argv[1][i] = tolower(argv[1][i]);
         }
 
-        if (strcmp(argv[1], "random") == 0) {
-            printf("Es wird mit Zufallszahlen gespielt.\n");
-            playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
-            requestRandom = false; // Explizite Anforderung von Zufallszahlen
-        } else if (strcmp(argv[1], "norandom") == 0) {
-            printf("Es wird ohne Zufallszahlen gespielt.\n");
-            playsWithRandomNumbers = false; // Ohne Zufallszahlen spielen
-            requestRandom = false; // Explizite Anforderung von Nicht-Zufallszahlen
-        } else if (strcmp(argv[1], "--help") == 0) {
-            printf("Verwendung: %s [random|norandom]\n", argv[0]);
-            printf("  random: Mit Zufallszahlen spielen\n");
-            printf("  norandom: Ohne Zufallszahlen spielen\n");
-            printf("  --help: Hilfe anzeigen\n");
-            return 0; // Programm erfolgreich beendet
-        } else {
-            printf("Ungültiges Kommandozeilenargument!\n");
-            return 1; // Programm mit Fehlercode beenden
+        // Abfangen des Kommandozeilenarguments und Anlegen der Variable userSelect
+        // Dies ermöglicht verschiedene Schreibweisen des gleichen Befehls
+        // und die Anzeige der Hilfe.
+        // Die Variable userSelect wird später in einem Switch-Statement verwendet,
+        // um die gewünschte Aktion auszuführen.
+
+        char userSelect;
+        if (strcmp(argv[1], "random") == 0) userSelect = 'r'; // Mit Zufallszahlen spielen
+        else if (strcmp(argv[1], "norandom") == 0) userSelect = 'n'; // Ohne Zufallszahlen spielen
+        else if (strcmp(argv[1], "--help") == 0) userSelect = 'h'; // Hilfe anzeigen
+        else if (strcmp(argv[1], "-h") == 0) userSelect = 'h'; // Hilfe anzeigen
+        else if (strcmp(argv[1], "-hilfe") == 0) userSelect = 'h'; // Hilfe anzeigen
+        else if (strcmp(argv[1], "-?") == 0) userSelect = 'h'; // Hilfe anzeigen
+        else userSelect = 'x'; // Ungültiges Kommandozeilenargument
+
+        switch (userSelect) {
+            case 'r': // Mit Zufallszahlen spielen
+                printf("Es wird mit Zufallszahlen gespielt.\n");
+                playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
+                requestRandom = false; // Explizite Anforderung von Zufallszahlen            
+                break;
+            case 'n': // Ohne Zufallszahlen spielen
+                printf("Es wird ohne Zufallszahlen gespielt.\n");
+                playsWithRandomNumbers = false; // Ohne Zufallszahlen spielen
+                requestRandom = false; // Explizite Anforderung von Nicht-Zufallszahlen
+                break;
+            case 'h': // Hilfe anzeigen
+                printf("Verwendung: %s [random|norandom]\n", argv[0]);
+                printf("  random:          Mit Zufallszahlen spielen\n");
+                printf("  norandom:        Ohne Zufallszahlen spielen\n");
+                printf("  -h, --help,\n");
+                printf("  -hilfe, -?:      Hilfe anzeigen\n");
+                return 0; // Programm erfolgreich beendet
+                break;
+            default:
+                printf("Ungültiges Kommandozeilenargument!\n");
+                return 1; // Programm mit Fehlercode beenden
+                break;
         }
     } else if (requestRandom == true) { // Nur, wenn keine (gültigen) Kommandozeilenargumente übergeben wurden
         printf("Möchten Sie mit Zufallszahlen spielen? (j/n): ");
