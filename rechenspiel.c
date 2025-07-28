@@ -55,10 +55,14 @@ int main (int argc, char *argv[]) {
 
         char userSelect;
         if (strcmp(argv[1], "random") == 0) userSelect = 'r'; // Mit Zufallszahlen spielen
+        else if (strcmp(argv[1], "--random") == 0) userSelect = 'r'; // Ohne Zufallszahlen spielen
+        else if (strcmp(argv[1], "-r") == 0) userSelect = 'r'; // Ohne Zufallszahlen spielen
         else if (strcmp(argv[1], "norandom") == 0) userSelect = 'n'; // Ohne Zufallszahlen spielen
+        else if (strcmp(argv[1], "--norandom") == 0) userSelect = 'n'; // Ohne Zufallszahlen spielen
+        else if (strcmp(argv[1], "-n") == 0) userSelect = 'n'; // Ohne Zufallszahlen spielen
         else if (strcmp(argv[1], "--help") == 0) userSelect = 'h'; // Hilfe anzeigen
         else if (strcmp(argv[1], "-h") == 0) userSelect = 'h'; // Hilfe anzeigen
-        else if (strcmp(argv[1], "-hilfe") == 0) userSelect = 'h'; // Hilfe anzeigen
+        else if (strcmp(argv[1], "--hilfe") == 0) userSelect = 'h'; // Hilfe anzeigen
         else if (strcmp(argv[1], "-?") == 0) userSelect = 'h'; // Hilfe anzeigen
         else userSelect = 'x'; // Ungültiges Kommandozeilenargument
 
@@ -77,8 +81,10 @@ int main (int argc, char *argv[]) {
                 printf("Verwendung: %s [random|norandom]\n", argv[0]);
                 printf("  random:          Mit Zufallszahlen spielen\n");
                 printf("  norandom:        Ohne Zufallszahlen spielen\n");
+                printf("  -r, --random:    Mit Zufallszahlen spielen\n");
+                printf("  -n, --norandom:  Mit Zufallszahlen spielen\n");
                 printf("  -h, --help,\n");
-                printf("  -hilfe, -?:      Hilfe anzeigen\n");
+                printf("  --hilfe, -?:      Hilfe anzeigen\n");
                 return 0; // Programm erfolgreich beendet
                 break;
             default:
