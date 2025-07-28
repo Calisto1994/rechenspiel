@@ -25,13 +25,23 @@ int randomNumber(int min, int max); // Funktion zur Generierung von Zufallszahle
 bool playsWithRandomNumbers = false; // Variable zur Steuerung, ob mit Zufallszahlen gespielt wird
 
 int main (int argc, char *argv[]) {
+    bool requestRandom = true; // Variable, um zu überprüfen, ob das Programm mit einem Kommandozeilenargument gestartet wurde
+    int minRand = 1; // Minimalwert für Zufallszahlen
+    int maxRand = 25; // Maximalwert für Zufallszahlen
+    int zahl1, zahl2, ergebnis;
+    int richtigeAntwort = 0; // Zähler für richtige Antworten
+    int falscheAntwort = 0; // Zähler für falsche Antworten
+    int anzahlRunden = 0; // Zähler für die Anzahl der Runden
+
+    srand(time(NULL)); // Initialisierung des Zufallszahlengenerators mit der aktuellen Zeit
+
+    // Setzen der deutschen Locale für die korrekte Darstellung von Zahlen und Zeichen
     if (setlocale(LC_ALL, "de_DE.UTF-8") == NULL) {
         // Fehlerbehandlung, wenn die Locale nicht gesetzt werden kann
         fprintf(stderr, "Warnung: Die Locale konnte nicht auf Deutsch gesetzt werden.\n");
     }
 
-    bool requestRandom = true; // Variable, um zu überprüfen, ob das Programm mit einem Kommandozeilenargument gestartet wurde
-
+    // Überprüfen der Kommandozeilenargumente
     if (argc > 1) {
         if (strcmp(argv[1], "random") == 0) {
             printf("Es wird mit Zufallszahlen gespielt.\n");
@@ -41,21 +51,17 @@ int main (int argc, char *argv[]) {
             printf("Es wird ohne Zufallszahlen gespielt.\n");
             playsWithRandomNumbers = false; // Ohne Zufallszahlen spielen
             requestRandom = false; // Explizite Anforderung von Nicht-Zufallszahlen
+        } else if (strcmp(argv[1], "--help") == 0) {
+            printf("Verwendung: %s [random|norandom]\n", argv[0]);
+            printf("  random: Mit Zufallszahlen spielen\n");
+            printf("  norandom: Ohne Zufallszahlen spielen\n");
+            printf("  --help: Hilfe anzeigen\n");
+            return 0; // Programm erfolgreich beendet
         } else {
-            (void)0; // Der Nutzer wird gefragt, ob er mit Zufallszahlen spielen möchte
+            printf("Ungültiges Kommandozeilenargument!\n");
+            return 1; // Programm mit Fehlercode beenden
         }
-    }
-
-    srand(time(NULL)); // Initialisierung des Zufallszahlengenerators mit der aktuellen Zeit
-
-    int minRand = 1; // Minimalwert für Zufallszahlen
-    int maxRand = 25; // Maximalwert für Zufallszahlen
-    int zahl1, zahl2, ergebnis;
-    int richtigeAntwort = 0; // Zähler für richtige Antworten
-    int falscheAntwort = 0; // Zähler für falsche Antworten
-    int anzahlRunden = 0; // Zähler für die Anzahl der Runden
-
-    if (requestRandom == true) { // Nur, wenn keine (gültigen) Kommandozeilenargumente übergeben wurden
+    } else if (requestRandom == true) { // Nur, wenn keine (gültigen) Kommandozeilenargumente übergeben wurden
         printf("Möchten Sie mit Zufallszahlen spielen? (j/n): ");
         if (getYesNo() == true) {
             playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
