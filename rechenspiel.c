@@ -43,8 +43,11 @@ int main (int argc, char *argv[]) {
 
     // Überprüfen der Kommandozeilenargumente
     if (argc > 1) {
-        for(int i = 0; argv[1][i]; i++){ // Alle Zeichen des ersten Kommandozeilenarguments in Kleinbuchstaben umwandeln
-            argv[1][i] = tolower(argv[1][i]);
+        char* cmdArg = malloc(strlen(argv[1]) + 1); // Reservieren von Speicher für das Kommandozeilenargument
+        strcpy(cmdArg, argv[1]); // Kopieren des Kommandozeilenarguments in eine neue Variable
+
+        for(int i = 0; cmdArg[i]; i++){ // Alle Zeichen des ersten Kommandozeilenarguments in Kleinbuchstaben umwandeln
+            cmdArg[i] = tolower(cmdArg[i]);
         }
 
         // Abfangen des Kommandozeilenarguments und Anlegen der Variable userSelect
@@ -54,16 +57,16 @@ int main (int argc, char *argv[]) {
         // um die gewünschte Aktion auszuführen.
 
         char userSelect;
-        if (strcmp(argv[1], "random") == 0) userSelect = 'r'; // Mit Zufallszahlen spielen
-        else if (strcmp(argv[1], "--random") == 0) userSelect = 'r'; // Ohne Zufallszahlen spielen
-        else if (strcmp(argv[1], "-r") == 0) userSelect = 'r'; // Ohne Zufallszahlen spielen
-        else if (strcmp(argv[1], "norandom") == 0) userSelect = 'n'; // Ohne Zufallszahlen spielen
-        else if (strcmp(argv[1], "--norandom") == 0) userSelect = 'n'; // Ohne Zufallszahlen spielen
-        else if (strcmp(argv[1], "-n") == 0) userSelect = 'n'; // Ohne Zufallszahlen spielen
-        else if (strcmp(argv[1], "--help") == 0) userSelect = 'h'; // Hilfe anzeigen
-        else if (strcmp(argv[1], "-h") == 0) userSelect = 'h'; // Hilfe anzeigen
-        else if (strcmp(argv[1], "--hilfe") == 0) userSelect = 'h'; // Hilfe anzeigen
-        else if (strcmp(argv[1], "-?") == 0) userSelect = 'h'; // Hilfe anzeigen
+        if (strcmp(cmdArg, "random") == 0) userSelect = 'r'; // Mit Zufallszahlen spielen
+        else if (strcmp(cmdArg, "--random") == 0) userSelect = 'r'; // Ohne Zufallszahlen spielen
+        else if (strcmp(cmdArg, "-r") == 0) userSelect = 'r'; // Ohne Zufallszahlen spielen
+        else if (strcmp(cmdArg, "norandom") == 0) userSelect = 'n'; // Ohne Zufallszahlen spielen
+        else if (strcmp(cmdArg, "--norandom") == 0) userSelect = 'n'; // Ohne Zufallszahlen spielen
+        else if (strcmp(cmdArg, "-n") == 0) userSelect = 'n'; // Ohne Zufallszahlen spielen
+        else if (strcmp(cmdArg, "--help") == 0) userSelect = 'h'; // Hilfe anzeigen
+        else if (strcmp(cmdArg, "-h") == 0) userSelect = 'h'; // Hilfe anzeigen
+        else if (strcmp(cmdArg, "--hilfe") == 0) userSelect = 'h'; // Hilfe anzeigen
+        else if (strcmp(cmdArg, "-?") == 0) userSelect = 'h'; // Hilfe anzeigen
         else userSelect = 'x'; // Ungültiges Kommandozeilenargument
 
         switch (userSelect) {
@@ -77,7 +80,7 @@ int main (int argc, char *argv[]) {
                 playsWithRandomNumbers = false; // Ohne Zufallszahlen spielen
                 requestRandom = false; // Explizite Anforderung von Nicht-Zufallszahlen
                 break;
-            case 'h': // Hilfe anzeigen
+            case 'h': // Hilfe anzeigen"
                 printf("Verwendung: %s [random|norandom]\n", argv[0]);
                 printf("  random:          Mit Zufallszahlen spielen\n");
                 printf("  norandom:        Ohne Zufallszahlen spielen\n");
