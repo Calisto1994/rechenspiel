@@ -18,7 +18,7 @@
     Alle Eingaben werden auf Gültigkeit geprüft, um sicherzustellen, dass der Benutzer nur ganze Zahlen eingibt.
 */
 
-int main(); // Hauptfunktion des Programms
+int main(int argc, char *argv[]); // Hauptfunktion des Programms
 
 bool getYesNo(); // Funktion zur Abfrage ja/nein
 int randomNumber(int min, int max); // Funktion zur Generierung von Zufallszahlen
