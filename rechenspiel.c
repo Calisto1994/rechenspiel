@@ -7,6 +7,7 @@
 #include <string.h> // Für strcmp-Funktion - wird benötigt, um die Kommandozeilenargumente zu vergleichen
 #include <locale.h> // Für setlocale-Funktion - wird benötigt, um die Locale auf Deutsch zu setzen
 #include <wchar.h> // Für wchar_t - wird benötigt, um die Locale auf Deutsch zu setzen
+#include "setlocales.h" // Header-Datei für die setLocaleToGerman-Funktion
 
 /* Rechenspiel 
     Das Spiel fragt den Benutzer in 10 Runden nach zwei ganzen Zahlen.
@@ -35,11 +36,7 @@ int main (int argc, char *argv[]) {
 
     srand(time(NULL)); // Initialisierung des Zufallszahlengenerators mit der aktuellen Zeit
 
-    // Setzen der deutschen Locale für die korrekte Darstellung von Zahlen und Zeichen
-    if (setlocale(LC_ALL, "de_DE.UTF-8") == NULL) {
-        // Fehlerbehandlung, wenn die Locale nicht gesetzt werden kann
-        fprintf(stderr, "Warnung: Die Locale konnte nicht auf Deutsch gesetzt werden.\n");
-    }
+    setLocaleToGerman(); // Setzen der deutschen Locale für die korrekte Darstellung von Zahlen und Zeichen
 
     // Überprüfen der Kommandozeilenargumente
     if (argc > 1) {
