@@ -122,6 +122,9 @@ int main () {
         while (getchar() != '\n'); // Puffer leeren
 
     }
+    printf("Drücke STRG+C, um das Programm zu beenden.\n");
+    pause(); // Warten auf Signal/Eingabe (STRG+C) oder Signal (z.B. SIGTERM), bevor das Programm endet
+    return 0; // Programm erfolgreich beendet
 }
 
 bool nextRound () {  // Abfrage, ob der Benutzer weitermachen möchte
