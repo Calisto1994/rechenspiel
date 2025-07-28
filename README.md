@@ -5,6 +5,7 @@ Dieses Programm ist ein Konsolen-basiertes Rechenspiel, das den Benutzer in bis 
 ## Funktionsweise
 
 - Zu Beginn kann gewählt werden, ob mit Zufallszahlen gespielt wird.
+- - Alternativ ist es möglich, das Programm mit "random" oder "norandom" aufzurufen. Dies startet den gewünschten Modus direkt.
 - In jeder Runde werden zwei Zahlen vorgegeben (entweder vom Benutzer eingegeben oder zufällig generiert).
 - Der Benutzer muss die Summe der beiden Zahlen berechnen und eingeben.
 - Alle Eingaben werden auf Gültigkeit geprüft, sodass nur ganze Zahlen akzeptiert werden.

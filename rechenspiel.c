@@ -4,6 +4,7 @@
 #include <stdlib.h> // Für srand und rand-Funktionen
 #include <ctype.h> // Für tolower-Funktion
 #include <time.h> // Für srand-Funktion - wird benötigt, um Zufallszahlen zu generieren (Seeding)
+#include <string.h> // Für strcmp-Funktion - wird benötigt, um die Kommandozeilenargumente zu vergleichen
 
 /* Rechenspiel 
     Das Spiel fragt den Benutzer in 10 Runden nach zwei ganzen Zahlen.
@@ -20,7 +21,23 @@ bool getYesNo(); // Funktion zur Abfrage ja/nein
 int randomNumber(int min, int max); // Funktion zur Generierung von Zufallszahlen
 bool playsWithRandomNumbers = false; // Variable zur Steuerung, ob mit Zufallszahlen gespielt wird
 
-int main () {
+int main (int argc, char *argv[]) {
+    bool requestRandom = true; // Variable, um zu überprüfen, ob das Programm mit einem Kommandozeilenargument gestartet wurde
+
+    if (argc > 1) {
+        if (strcmp(argv[1], "random") == 0) {
+            printf("Es wird mit Zufallszahlen gespielt.\n");
+            playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
+            requestRandom = false; // Explizite Anforderung von Zufallszahlen
+        } else if (strcmp(argv[1], "norandom") == 0) {
+            printf("Es wird ohne Zufallszahlen gespielt.\n");
+            playsWithRandomNumbers = false; // Ohne Zufallszahlen spielen
+            requestRandom = false; // Explizite Anforderung von Nicht-Zufallszahlen
+        } else {
+            (void)0; // Der Nutzer wird gefragt, ob er mit Zufallszahlen spielen möchte
+        }
+    }
+
     srand(time(NULL)); // Initialisierung des Zufallszahlengenerators mit der aktuellen Zeit
 
     int minRand = 1; // Minimalwert für Zufallszahlen
@@ -30,12 +47,13 @@ int main () {
     int falscheAntwort = 0; // Zähler für falsche Antworten
     int anzahlRunden = 0; // Zähler für die Anzahl der Runden
 
-
-    printf("Möchten Sie mit Zufallszahlen spielen? (j/n): ");
-    if (getYesNo() == true) {
-        playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
-    } else {
-        playsWithRandomNumbers = false; // Ohne Zufallszahlen spielen
+    if (requestRandom == true) { // Nur, wenn keine (gültigen) Kommandozeilenargumente übergeben wurden
+        printf("Möchten Sie mit Zufallszahlen spielen? (j/n): ");
+        if (getYesNo() == true) {
+            playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
+        } else {
+            playsWithRandomNumbers = false; // Ohne Zufallszahlen spielen
+        }
     }
 
     // Eingabe
