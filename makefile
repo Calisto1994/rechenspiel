@@ -18,6 +18,6 @@ uninstall:	# Uninstall the binary from /usr/local/bin (Linux only)
 linux: rechenspiel.c
 	mkdir -p ./bin/
 	gcc -o ./bin/rechenspiel.bin rechenspiel.c
-win64: rechenspiel.c
+windows: rechenspiel.c
 	mkdir -p ./bin/
 	x86_64-w64-mingw32-gcc -o ./bin/rechenspiel.exe rechenspiel.c
