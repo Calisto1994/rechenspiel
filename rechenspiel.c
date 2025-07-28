@@ -68,6 +68,7 @@ int main (int argc, char *argv[]) {
         else if (strcmp(cmdArg, "--hilfe") == 0) userSelect = 'h'; // Hilfe anzeigen
         else if (strcmp(cmdArg, "-?") == 0) userSelect = 'h'; // Hilfe anzeigen
         else userSelect = 'x'; // Ungültiges Kommandozeilenargument
+        free(cmdArg); // Freigeben des reservierten Speichers für das Kommandozeilenargument
 
         switch (userSelect) {
             case 'r': // Mit Zufallszahlen spielen
