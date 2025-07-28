@@ -5,6 +5,8 @@
 #include <ctype.h> // Für tolower-Funktion
 #include <time.h> // Für srand-Funktion - wird benötigt, um Zufallszahlen zu generieren (Seeding)
 #include <string.h> // Für strcmp-Funktion - wird benötigt, um die Kommandozeilenargumente zu vergleichen
+#include <locale.h> // Für setlocale-Funktion - wird benötigt, um die Locale auf Deutsch zu setzen
+#include <wchar.h> // Für wchar_t - wird benötigt, um die Locale auf Deutsch zu setzen
 
 /* Rechenspiel 
     Das Spiel fragt den Benutzer in 10 Runden nach zwei ganzen Zahlen.
@@ -17,11 +19,17 @@
 */
 
 int main(); // Hauptfunktion des Programms
+
 bool getYesNo(); // Funktion zur Abfrage ja/nein
 int randomNumber(int min, int max); // Funktion zur Generierung von Zufallszahlen
 bool playsWithRandomNumbers = false; // Variable zur Steuerung, ob mit Zufallszahlen gespielt wird
 
 int main (int argc, char *argv[]) {
+    if (setlocale(LC_ALL, "de_DE.UTF-8") == NULL) {
+        // Fehlerbehandlung, wenn die Locale nicht gesetzt werden kann
+        fprintf(stderr, "Warnung: Die Locale konnte nicht auf Deutsch gesetzt werden.\n");
+    }
+
     bool requestRandom = true; // Variable, um zu überprüfen, ob das Programm mit einem Kommandozeilenargument gestartet wurde
 
     if (argc > 1) {
