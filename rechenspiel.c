@@ -9,6 +9,7 @@
 #include <wchar.h> // Für wchar_t - wird benötigt, um die Locale auf Deutsch zu setzen
 #include "setlocales.h" // Header-Datei für die setLocaleToGerman-Funktion
 #include "cFunctions.h" // Header-Datei für "cFunctions.c"
+#include "progress.h" // Header-Datei für die Fortschrittsanzeige
 
 /* Rechenspiel 
     Das Spiel fragt den Benutzer in 10 Runden nach zwei ganzen Zahlen.
@@ -36,6 +37,8 @@ int main (int argc, char *argv[]) {
     int richtigeAntwort = 0; // Zähler für richtige Antworten
     int falscheAntwort = 0; // Zähler für falsche Antworten
     int anzahlRunden = 0; // Zähler für die Anzahl der Runden
+    int i; // Zähler für Schleifen
+    double percentageRichtig = 0.0; // Variable für die prozentuale Angabe der richtigen Antworten
 
     srand(time(NULL)); // Initialisierung des Zufallszahlengenerators mit der aktuellen Zeit
 
@@ -176,13 +179,23 @@ int main (int argc, char *argv[]) {
         if (anzahlRunden == 10) {
             printf("\nSie haben die maximale Anzahl von 10 Runden erreicht.\n");
             printf("Sie haben %d richtige und %d falsche Antworten gegeben.\n", richtigeAntwort, falscheAntwort);
-            printf("Auf Wiedersehen!\n");
+            percentageRichtig = (double)richtigeAntwort / anzahlRunden * 100; // Prozentuale Angabe der richtigen Antworten
+            for (i = 0; i < percentageRichtig; i++) {
+                printProgress(i / 100.0); // Fortschrittsanzeige
+                usleep(25000); // 25 ms warten, um die Fortschrittsanzeige zu simulieren
+            }            
+            printf("\nAuf Wiedersehen!\n");
             break; // Schleife verlassen, wenn der Benutzer nicht mehr spielen möchte
         }
         
         if (getYesNo("Möchten Sie noch eine Runde? (j/n): ") == false) { // Abfrage, ob der Benutzer weitermachen möchte
             printf("Sie haben %d richtige und %d falsche Antworten in %d Runden gegeben.\n", richtigeAntwort, falscheAntwort, anzahlRunden);
-            printf("Auf Wiedersehen!\n");
+            percentageRichtig = (double)richtigeAntwort / anzahlRunden * 100; // Prozentuale Angabe der richtigen Antworten
+            for (i = 0; i < percentageRichtig; i++) {
+                printProgress(i / 100.0); // Fortschrittsanzeige
+                usleep(25000); // 25 ms warten, um die Fortschrittsanzeige zu simulieren
+            }            
+            printf("\nAuf Wiedersehen!\n");
             break; // Schleife verlassen, wenn der Benutzer nicht mehr rechnen möchte
             // Wird die Abfrage nicht mit nein beantwortet, wird die Schleife fortgesetzt
         }
