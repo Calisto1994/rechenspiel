@@ -3,13 +3,14 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-bool getYesNo(); // Funktion zur Abfrage ja/nein
+bool getYesNo(char* message); // Funktion zur Abfrage ja/nein
 int randomNumber(int min, int max); // Funktion zur Generierung von Zufallszahlen
 
-bool getYesNo () { // Abfrage ja/nein
+bool getYesNo (char* message) { // Abfrage ja/nein
     char zeichen;
 
     while (true) {
+        printf("%s", message); // Ausgabe der Nachricht
         scanf(" %c", &zeichen);
         if (tolower(zeichen) == 'j') {
             printf("\n"); // Neue Zeile für bessere Lesbarkeit
