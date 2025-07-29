@@ -174,9 +174,11 @@ int main (int argc, char *argv[]) {
             printf("\nSie haben die maximale Anzahl von 10 Runden erreicht.\n");
             printf("Sie haben %d richtige und %d falsche Antworten gegeben.\n", richtigeAntwort, falscheAntwort);
             percentageRichtig = (int)richtigeAntwort * 100 / anzahlRunden; // Prozentuale Angabe der richtigen Antworten
-            for (i = 0; i < (percentageRichtig + 1); i++) {
+            int steps = percentageRichtig + 1; // Anzahl der Schritte für die Fortschrittsanzeige
+            int sleepPerStep = 1000*1000 / steps; // 1s insgesamt
+            for (i = 0; i < steps; i++) {
                 printProgress(i / 100.0); // Fortschrittsanzeige
-                usleep(25000); // 25 ms warten, um die Fortschrittsanzeige zu simulieren
+                usleep(sleepPerStep); // Warten, um die Fortschrittsanzeige zu simulieren
             }            
             printf("\nAuf Wiedersehen!\n");
             break; // Schleife verlassen, wenn der Benutzer nicht mehr spielen möchte
@@ -186,7 +188,7 @@ int main (int argc, char *argv[]) {
             printf("Sie haben %d richtige und %d falsche Antworten in %d Runden gegeben.\n", richtigeAntwort, falscheAntwort, anzahlRunden);
             percentageRichtig = (int)richtigeAntwort * 100 / anzahlRunden; // Prozentuale Angabe der richtigen Antworten
             int steps = percentageRichtig + 1; // Anzahl der Schritte für die Fortschrittsanzeige
-            useconds_t sleepPerStep = 1000*1000 / steps; // 1s insgesamt
+            int sleepPerStep = 1000*1000 / steps; // 1s insgesamt
             for (i = 0; i < steps; i++) {
                 printProgress(i / 100.0); // Fortschrittsanzeige
                 usleep(sleepPerStep); // Warten, um die Fortschrittsanzeige zu simulieren
