@@ -179,8 +179,8 @@ int main (int argc, char *argv[]) {
         if (anzahlRunden == 10) {
             printf("\nSie haben die maximale Anzahl von 10 Runden erreicht.\n");
             printf("Sie haben %d richtige und %d falsche Antworten gegeben.\n", richtigeAntwort, falscheAntwort);
-            percentageRichtig = (double)richtigeAntwort / anzahlRunden * 100; // Prozentuale Angabe der richtigen Antworten
-            for (i = 0; i < percentageRichtig; i++) {
+            percentageRichtig = (int)richtigeAntwort * 100 / anzahlRunden; // Prozentuale Angabe der richtigen Antworten
+            for (i = 0; i < (percentageRichtig + 1); i++) {
                 printProgress(i / 100.0); // Fortschrittsanzeige
                 usleep(25000); // 25 ms warten, um die Fortschrittsanzeige zu simulieren
             }            
@@ -190,8 +190,8 @@ int main (int argc, char *argv[]) {
         
         if (getYesNo("Möchten Sie noch eine Runde? (j/n): ") == false) { // Abfrage, ob der Benutzer weitermachen möchte
             printf("Sie haben %d richtige und %d falsche Antworten in %d Runden gegeben.\n", richtigeAntwort, falscheAntwort, anzahlRunden);
-            percentageRichtig = (double)richtigeAntwort / anzahlRunden * 100; // Prozentuale Angabe der richtigen Antworten
-            for (i = 0; i < percentageRichtig; i++) {
+            percentageRichtig = (int)richtigeAntwort * 100 / anzahlRunden; // Prozentuale Angabe der richtigen Antworten
+            for (i = 0; i < (percentageRichtig + 1); i++) {
                 printProgress(i / 100.0); // Fortschrittsanzeige
                 usleep(25000); // 25 ms warten, um die Fortschrittsanzeige zu simulieren
             }            
