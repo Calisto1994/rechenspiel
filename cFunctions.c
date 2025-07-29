@@ -22,6 +22,7 @@ bool getYesNo (char* message) { // Abfrage ja/nein
             printf("Ungültige Eingabe. Bitte geben Sie 'j' oder 'n' ein.\n");
             continue; // Schleife neu starten
         }
+        free(&zeichen); // Freigeben des Puffers, da er nicht mehr benötigt wird
     }
 }
 
