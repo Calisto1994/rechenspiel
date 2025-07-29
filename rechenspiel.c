@@ -8,6 +8,7 @@
 #include <locale.h> // Für setlocale-Funktion - wird benötigt, um die Locale auf Deutsch zu setzen
 #include <wchar.h> // Für wchar_t - wird benötigt, um die Locale auf Deutsch zu setzen
 #include "setlocales.h" // Header-Datei für die setLocaleToGerman-Funktion
+#include "cFunctions.h" // Header-Datei für "cFunctions.c"
 
 /* Rechenspiel 
     Das Spiel fragt den Benutzer in 10 Runden nach zwei ganzen Zahlen.
@@ -19,11 +20,13 @@
     Alle Eingaben werden auf Gültigkeit geprüft, um sicherzustellen, dass der Benutzer nur ganze Zahlen eingibt.
 */
 
+// ----------------------------------- HEADER -----------------------------------
+// FUNKTIONEN
 int main(int argc, char *argv[]); // Hauptfunktion des Programms
-
-bool getYesNo(); // Funktion zur Abfrage ja/nein
-int randomNumber(int min, int max); // Funktion zur Generierung von Zufallszahlen
+// VARIABLEN
 bool playsWithRandomNumbers = false; // Variable zur Steuerung, ob mit Zufallszahlen gespielt wird
+// -----------------------------------------------------------------------------
+
 
 int main (int argc, char *argv[]) {
     bool requestRandom = true; // Variable, um zu überprüfen, ob das Programm mit einem Kommandozeilenargument gestartet wurde
@@ -193,27 +196,4 @@ int main (int argc, char *argv[]) {
     printf("Drücke STRG+C, um das Programm zu beenden.\n");
     while (scanf("%*c") != '\n'); // Warten auf Tastendruck, bevor das Programm endet
     return 0; // Programm erfolgreich beendet
-}
-
-bool getYesNo () { // Abfrage ja/nein
-    char zeichen;
-
-    while (true) {
-        scanf(" %c", &zeichen);
-        if (tolower(zeichen) == 'j') {
-            printf("\n"); // Neue Zeile für bessere Lesbarkeit
-            return true; // Ja
-        } else if (tolower(zeichen) == 'n') {
-            printf("\n"); // Neue Zeile für bessere Lesbarkeit    
-            return false; // Nein
-        } else {
-            printf("Ungültige Eingabe. Bitte geben Sie 'j' oder 'n' ein.\n");
-            while (getchar() != '\n'); // Puffer leeren
-            continue; // Schleife neu starten
-        }
-    }
-}
-
-int randomNumber(int min, int max) {
-    return (rand() % (max - min + 1)) + min; // Zufallszahl zwischen min und max generieren
 }
