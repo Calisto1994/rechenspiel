@@ -18,13 +18,13 @@ uninstall:	# Uninstall the binary from /usr/local/bin (Linux only)
 	@echo "Uninstalling rechenspiel..."
 	@sudo rm -f /usr/local/bin/rechenspiel
 
-linux: rechenspiel.c cFunctions.c setlocale_unices.c
+linux: *.c
 	@echo "Building for Linux x86_64..."
 	@mkdir -p ./bin/
-	@gcc -o ./bin/rechenspiel.bin rechenspiel.c cFunctions.c progress.c userInput.c setlocale_unices.c
+	@gcc -o ./bin/rechenspiel.bin *.c
 	@strip --strip-unneeded ./bin/rechenspiel.bin
-windows: rechenspiel.c cFunctions.c setlocale_win.c
+windows: *.c
 	@echo "Building for Windows x86_64..."
 	@mkdir -p ./bin/
-	@x86_64-w64-mingw32-gcc -o ./bin/rechenspiel.exe rechenspiel.c cFunctions.c progress.c userInput.c setlocale_win.c
+	@x86_64-w64-mingw32-gcc -o ./bin/rechenspiel.exe *.c
 	@strip --strip-unneeded ./bin/rechenspiel.exe
