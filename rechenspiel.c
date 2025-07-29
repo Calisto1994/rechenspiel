@@ -10,6 +10,7 @@
 #include "setlocales.h" // Header-Datei für die setLocaleToGerman-Funktion
 #include "cFunctions.h" // Header-Datei für "cFunctions.c"
 #include "progress.h" // Header-Datei für die Fortschrittsanzeige
+#include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
 
 /* Rechenspiel 
     Das Spiel fragt den Benutzer in 10 Runden nach zwei ganzen Zahlen.
@@ -123,10 +124,8 @@ int main (int argc, char *argv[]) {
                 printf("  Zahl 2: %d\n", zahl2);
                 break; // Schleife verlassen, wenn Zufallszahlen verwendet werden
             }
-            printf("  Zahl 1: ");
-            if (!scanf(" %d", &zahl1)) {
+            if (userInput_int(&zahl1, "  Zahl 1: ") != 0) { // Eingabe der ersten Zahl
                 printf("Fehlerhafte Eingabe. Bitte geben Sie eine ganze Zahl ein.\n");
-                while (getchar() != '\n'); // Puffer leeren
                 continue; // Schleife neu starten
             } else break; // Gültige Eingabe, Schleife verlassen
         }
@@ -136,10 +135,8 @@ int main (int argc, char *argv[]) {
                 break; // Wenn Zufallszahlen verwendet werden, wird die Schleife verlassen,
                 // da bereits in der oberen Schleife die Zufallszahlen generiert wurden.
             }
-            printf("  Zahl 2: ");
-            if (!scanf(" %d", &zahl2)) {
+            if (userInput_int(&zahl2, "  Zahl 2: ") != 0) { // Eingabe der zweiten Zahl
                 printf("Fehlerhafte Eingabe. Bitte geben Sie eine ganze Zahl ein.\n");
-                while (getchar() != '\n'); // Puffer leeren
                 continue; // Schleife neu starten
             } else break; // Gültige Eingabe, Schleife verlassen
         }
@@ -148,7 +145,6 @@ int main (int argc, char *argv[]) {
         // Wenn beide Zahlen Null sind, erneut nach Zahlen fragen
         if (zahl1 == 0 && zahl2 == 0) {
             printf("Beide Zahlen sind Null. Bitte geben Sie andere Zahlen ein.\n");
-            while (getchar() != '\n'); // Puffer leeren
             continue; // Schleife neu starten
         }
 
@@ -158,10 +154,8 @@ int main (int argc, char *argv[]) {
         ergebnis = zahl1 + zahl2;
 
         while (true) {
-            printf("Ergebnis: ");
-            if (!scanf(" %d", &ergebnis)) {
+            if (userInput_int(&ergebnis, "Ergebnis: ") != 0) {
                 printf("Fehlerhafte Eingabe. Bitte geben Sie eine ganze Zahl ein.\n");
-                while (getchar() != '\n'); // Puffer leeren
                 continue; // Schleife neu starten
             }
             break; // Gültige Eingabe, Schleife verlassen
@@ -199,12 +193,8 @@ int main (int argc, char *argv[]) {
             break; // Schleife verlassen, wenn der Benutzer nicht mehr rechnen möchte
             // Wird die Abfrage nicht mit nein beantwortet, wird die Schleife fortgesetzt
         }
-
-        // Eingabe zurücksetzen
-        while (getchar() != '\n'); // Puffer leeren
-
     }
-    printf("Drücke STRG+C, um das Programm zu beenden.\n");
-    while (scanf("%*c") != '\n'); // Warten auf Tastendruck, bevor das Programm endet
+    char* dummy = NULL;
+    userInput(&dummy, "Drücke Enter, um zu beenden..."); // Warten auf Enter-Taste, um das Programm
     return 0; // Programm erfolgreich beendet
 }
