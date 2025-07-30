@@ -11,6 +11,9 @@
 #include "cFunctions.h" // Header-Datei für "cFunctions.c"
 #include "progress.h" // Header-Datei für die Fortschrittsanzeige
 #include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
+#ifndef WIN32 // only for Linux, this won't work on Win32. There, we have to link against libuserInput.dll, but it can be in the apps directory
+    #include <dlfcn.h> // dynamisches Laden von Bibliotheken
+#endif
 
 /* Rechenspiel 
     Das Spiel fragt den Benutzer in 10 Runden nach zwei ganzen Zahlen.
@@ -31,6 +34,22 @@ bool playsWithRandomNumbers = false; // Variable zur Steuerung, ob mit Zufallsza
 
 
 int main (int argc, char *argv[]) {
+
+    #ifndef WIN32
+        #ifdef PORTABLE
+            // Portable binary, also wird libuserInput.so aus dem Verzeichnis der Anwendung geladen, nicht aus dem System heraus
+            // Hierbei ist es NICHT nötig, LD_LIBRARY_PATH als Umgebungsvariable zu setzen, da die Anwendung SELBST das
+            // Laden und Linken der Bibliothek übernimmt.
+            void* libuserInput = dlopen("./libuserInput.so", RTLD_LAZY);
+            int (*userInput) (char **buffer, char* prompt) = dlsym(libuserInput, "userInput");
+            int (*userInput_c) (char *buffer, char* prompt) = dlsym(libuserInput, "userInput_c");
+            int (*userInput_ml) (char **buffer, char* prompt) = dlsym(libuserInput, "userInput_ml");
+            int (*userInput_int) (int *buffer, char* prompt) = dlsym(libuserInput, "userInput_int");
+            int (*userInput_double) (double *buffer, char* prompt) = dlsym(libuserInput, "userInput_double");
+            bool (*userInput_yesno) (char* prompt) = dlsym(libuserInput, "userInput_yesno");
+        #endif
+    #endif
+
     bool requestRandom = true; // Variable, um zu überprüfen, ob das Programm mit einem Kommandozeilenargument gestartet wurde
     int minRand = 1; // Minimalwert für Zufallszahlen
     int maxRand = 25; // Maximalwert für Zufallszahlen

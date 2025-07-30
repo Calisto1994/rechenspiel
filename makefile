@@ -1,6 +1,6 @@
 # Makefile für rechenspiel.c
 
-.PHONY: all linux windows clean install
+.PHONY: all linux windows clean install linuxportable
 all: linux windows		# Default target to build for Linux and Windows
 
 clean:
@@ -21,10 +21,17 @@ uninstall:	# Uninstall the binary from /usr/local/bin (Linux only)
 linux: *.c
 	@echo "Building for Linux x86_64..."
 	@mkdir -p ./bin/
-	@gcc -o ./bin/rechenspiel.bin *.c
+	@gcc -o ./bin/rechenspiel.bin *.c -luserInput
 	@strip --strip-unneeded ./bin/rechenspiel.bin
+linuxportable: libuserInput.so *.c
+	@echo "Building for Linux x86_64 as portable binary..."
+	@mkdir -p ./bin/
+	@gcc -o ./bin/rechenspiel_portable.bin *.c -ldl -D PORTABLE
+	@strip --strip-unneeded ./bin/rechenspiel_portable.bin
+	@cp ./libuserInput.so ./bin/
 windows: *.c
 	@echo "Building for Windows x86_64..."
 	@mkdir -p ./bin/
-	@x86_64-w64-mingw32-gcc -o ./bin/rechenspiel.exe *.c
+	@x86_64-w64-mingw32-gcc -o ./bin/rechenspiel.exe *.c -luserInput -L./
 	@strip --strip-unneeded ./bin/rechenspiel.exe
+	@cp ./libuserInput.dll ./bin/
