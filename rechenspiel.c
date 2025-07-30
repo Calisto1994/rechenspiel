@@ -10,8 +10,6 @@
 #include "setlocales.h" // Header-Datei für die setLocaleToGerman-Funktion
 #include "cFunctions.h" // Header-Datei für "cFunctions.c"
 #include "progress.h" // Header-Datei für die Fortschrittsanzeige
-
-#define APP_LANGUAGE APP_LANGUAGE_GERMAN // Definiert die Sprache des Programms, hier Deutsch
 #include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
 
 /* Rechenspiel 
@@ -94,7 +92,7 @@ int main (int argc, char *argv[]) {
                 printf("  -r, --random:    Mit Zufallszahlen spielen\n");
                 printf("  -n, --norandom:  Mit Zufallszahlen spielen\n");
                 printf("  -h, --help,\n");
-                printf("  --hilfe, -?:      Hilfe anzeigen\n");
+                printf("  --hilfe, -?:     Hilfe anzeigen\n");
                 return 0; // Programm erfolgreich beendet
                 break;
             default:
