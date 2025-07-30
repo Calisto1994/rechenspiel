@@ -10,7 +10,9 @@
 #include "setlocales.h" // Header-Datei für die setLocaleToGerman-Funktion
 #include "cFunctions.h" // Header-Datei für "cFunctions.c"
 #include "progress.h" // Header-Datei für die Fortschrittsanzeige
-#include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
+#ifndef PORTABLE
+    #include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
+#endif
 #ifndef WIN32 // only for Linux, this won't work on Win32. There, we have to link against libuserInput.dll, but it can be in the apps directory
     #include <dlfcn.h> // dynamisches Laden von Bibliotheken
 #endif
