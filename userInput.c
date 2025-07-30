@@ -20,10 +20,16 @@
 // userInput_int: Reads an integer from the user and stores it in an int buffer.
 // userInput_double: Reads a double from the user and stores it in a double buffer.
 
-// !!!!! ATTENTION: These functions are designed to be memory-safe, meaning they handle dynamic memory allocation (malloc/realloc) and error cases such as memory shortages or invalid inputs.
+// !!!!! ATTENTION: These functions are designed to be memory-safe, meaning they handle dynamic memory allocation
+// (malloc/realloc) and error cases such as memory shortages or invalid inputs.
 // They return 0 on success and 1 on failure.
 // The caller is responsible for freeing the returned buffer after use to avoid memory leaks.
 // Therefore; handle with care and ensure to free the allocated memory after use.
+//
+// MEMORY FREEING: Only the line input functions (userInput, userInput_ml) return a dynamically allocated buffer that must be freed by the caller.
+// Every other function (userInput_c, userInput_int, userInput_double) uses a static buffer or a pointer to an existing buffer that does not need
+// to be freed by the caller.
+// This was intentionally done to avoid unnecessary memory management overhead for simple inputs and to simplify the usage of these functions in most cases.
 
 
 // ****** Function declarations ******
