@@ -40,7 +40,7 @@ int userInput_c (char *buffer, char* prompt); // Memory-safe implementation of u
 int userInput_ml (char **buffer, char* prompt); // Memory-safe implementation of user input (multiple lines)
 int userInput_int (int *buffer, char* prompt); // Memory-safe implementation of user input for integers
 int userInput_double (double *buffer, char* prompt); // Memory-safe implementation of user input for doubles
-bool userInput_yesno (char* prompt); // Memory-safe implementation of user input for yes/no questions
+bool userInput_yesno (char *buffer, char* prompt); // Memory-safe implementation of user input for yes/no questions
 
 // ****** Character input functions ******
 
@@ -130,9 +130,33 @@ int userInput_int (int *buffer, char* prompt) {
     return 0; // Successful input
 }
 
-// ****** Boolean input functions ******
+int userInput_double (double *buffer, char* prompt) {
+    // Varable declarations
+    char *input;
+    char *endptr;
 
-bool userInput_yesno (char* prompt) { // Abfrage ja/nein
+    // User Input
+    if (userInput(&input, prompt) != 0) {
+        printf("Fehler bei der Eingabe.\n");
+        free(input);
+        return 1; // Error in input
+    }
+
+    int value = strtof(input, &endptr);
+
+    if (errno == ERANGE || (endptr == input) || (*endptr != '\0')) {
+        fprintf(stderr, "User-provided input not a valid double.\n");
+        free(input);
+        return 1; // Error in input
+    }
+    errno=0; // Reset errno for the next input
+
+    free(input);
+    *buffer = value;
+    return 0; // Successful input
+}
+
+bool userInput_yesno (char *buffer, char* prompt) {
     char zeichen;
 
     while (true) {
