@@ -10,9 +10,9 @@
 #include "setlocales.h" // Header-Datei für die setLocaleToGerman-Funktion
 #include "cFunctions.h" // Header-Datei für "cFunctions.c"
 #include "progress.h" // Header-Datei für die Fortschrittsanzeige
-#include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
 
 #define APP_LANGUAGE APP_LANGUAGE_GERMAN // Definiert die Sprache des Programms, hier Deutsch
+#include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
 
 /* Rechenspiel 
     Das Spiel fragt den Benutzer in 10 Runden nach zwei ganzen Zahlen.
