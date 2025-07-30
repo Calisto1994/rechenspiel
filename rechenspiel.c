@@ -12,6 +12,8 @@
 #include "progress.h" // Header-Datei für die Fortschrittsanzeige
 #include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
 
+#define APP_LANGUAGE APP_LANGUAGE_GERMAN // Definiert die Sprache des Programms, hier Deutsch
+
 /* Rechenspiel 
     Das Spiel fragt den Benutzer in 10 Runden nach zwei ganzen Zahlen.
     Anschließend wird die Summe der beiden Zahlen berechnet und der Benutzer muss das Ergebnis eingeben.

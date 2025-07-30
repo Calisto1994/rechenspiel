@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <limits.h>
-#include <errno.h>
-#include <stdbool.h>
-#include <ctype.h>
+#include "includes.h"
 
 // *** userInput.c - Memory-safe user input functions ***
 // This file contains functions for reading user input in a memory-safe way.
@@ -34,6 +28,8 @@
 // to be freed by the caller.
 // This was intentionally done to avoid unnecessary memory management overhead for simple inputs and to simplify the usage of these functions in most cases.
 
+#define APP_LANGUAGE_ENGLISH 0
+#define APP_LANGUAGE_GERMAN 1
 
 // ****** Function declarations ******
 
@@ -87,7 +83,7 @@ int userInput_ml (char **buffer, char* prompt) {
     size_t len = 0;
 
     printf("%s", prompt);
-    while ((thisChar = getchar()) != EOF) { // Nur nach EOF abfragen für mehrere Zeilen ("\n" wird nicht berücksichtigt)
+    while ((thisChar = getchar()) != EOF) { // Only EOF is checked, so multiple lines can be entered, "\n" is ignored
         if (len + 2 > size) {
             size *= 2;
             char* tmp = realloc(*buffer, size);
@@ -110,48 +106,51 @@ int userInput_int (int *buffer, char* prompt) {
     // Variable declarations
     char *input;
     char *endptr;
+    errno = 0; // Reset errno before input
 
     // User Input
     if (userInput(&input, prompt) != 0) {
         printf("Fehler bei der Eingabe.\n");
-        free(input);
         return 1; // Error in input
     }
 
-    int value = strtol(input, &endptr, 10);
+    long value = strtol(input, &endptr, 10);
+    if (value < INT_MIN || value > INT_MAX) {
+        fprintf(stderr, "User-provided input out of range for int.\n");
+        free(input);
+        return 1; // Error in input
+    }
 
     if (errno == ERANGE || (endptr == input) || (*endptr != '\0')) {
         fprintf(stderr, "User-provided input not a valid integer.\n");
         free(input);
         return 1; // Error in input
     }
-    errno=0; // Reset errno for the next input
 
     free(input);
-    *buffer = value;
+    *buffer = (int)value; // Convert long to int
     return 0; // Successful input
 }
 
 int userInput_double (double *buffer, char* prompt) {
-    // Varable declarations
+    // Variable declarations
     char *input;
     char *endptr;
+    errno = 0; // Reset errno before input
 
     // User Input
     if (userInput(&input, prompt) != 0) {
         printf("Fehler bei der Eingabe.\n");
-        free(input);
         return 1; // Error in input
     }
 
-    int value = strtod(input, &endptr);
+    double value = strtod(input, &endptr);
 
     if (errno == ERANGE || (endptr == input) || (*endptr != '\0')) {
+        free(input); // Free memory on error
         fprintf(stderr, "User-provided input not a valid double.\n");
-        free(input);
         return 1; // Error in input
     }
-    errno=0; // Reset errno for the next input
 
     free(input);
     *buffer = value;
@@ -163,14 +162,27 @@ bool userInput_yesno (char* prompt) {
 
     while (true) {
         userInput_c(&zeichen, prompt);
-        if (tolower(zeichen) == 'j') {
+        if (zeichen == EOF) {
+    
+            fprintf(stderr, "Input terminated by EOF before an answer could be processed.\n");
+            return false; // Treat EOF as no answer
+        }
+        if (tolower(zeichen) == 'y' || tolower(zeichen) == 'j') {
             printf("\n"); // New line for better readability
             return true; // Yes
-        } else if (tolower(zeichen) == 'n') {
+        } else if (tolower(zeichen) == 'n' || tolower(zeichen) == 'n') {
             printf("\n"); // New line for better readability    
             return false; // No
         } else {
-            printf("Ungültige Eingabe! Sie können nur mit 'j' oder 'n' antworten!\n");
+            #ifdef APP_LANGUAGE
+            if (APP_LANGUAGE == APP_LANGUAGE_GERMAN) {
+                printf("Ungültige Eingabe! Bitte nur mit j/n antworten.\n");
+            } else {
+                printf("Invalid input! Only answer y/n please.\n");
+            }
+            #else
+                printf("Invalid input! Only answer y/n please.\n");
+            #endif
             continue; // Restart loop
         }
     }
