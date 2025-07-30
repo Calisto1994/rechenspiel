@@ -22,7 +22,7 @@ Dieses Programm ist ein Konsolen-basiertes Rechenspiel, das den Benutzer in bis 
    ```
 2. Starten Sie das Programm:
    ```
-   ./rechenspiel
+   ./bin/rechenspiel.bin
    ```
 3. Folgen Sie den Anweisungen im Terminal.
 
@@ -43,6 +43,19 @@ Dieses Programm ist ein Konsolen-basiertes Rechenspiel, das den Benutzer in bis 
    ```
    make uninstall
    ```
+
+## Portable Binary (Linux)
+
+Unter Linux wird das Rechenspiel normalerweise dynamisch gegen `libuserInput.so` gelinkt, was erfordert, dass der Nutzer diese im System
+installiert hat oder sie via `LD_LIBRARY_PATH=.` beim Ausführen geladen wird. Allerdings ist es auch möglich, eine Binary zu generieren,
+welche grundsätzlich im Verzeichnis der Anwendung nach der Programmbibliothek sucht (Verhalten ähnlich wie bei Windows), das geht in diesem
+Fall folgendermaßen:
+
+```
+   make linuxportable
+```
+
+Anschließend findet sich im `./bin/`-Ordner eine `rechenspiel-portable.bin`, welche dazu fähig ist, die Bibliothek selbst zu laden und zu verlinken.
 
 ## Hinweise
 
