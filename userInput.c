@@ -4,6 +4,7 @@
 #include <limits.h>
 #include <errno.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 // *** userInput.c - Memory-safe user input functions ***
 // This file contains functions for reading user input in a memory-safe way.
@@ -20,6 +21,7 @@
 // userInput_ml: Reads multiple lines of input from the user and stores them in a dynamically allocated buffer.
 // userInput_int: Reads an integer from the user and stores it in an int buffer.
 // userInput_double: Reads a double from the user and stores it in a double buffer.
+// userInput_yesno: Reads a yes/no answer from the user and returns a boolean value (true for yes, false for no).
 
 // !!!!! ATTENTION: These functions are designed to be memory-safe, meaning they handle dynamic memory allocation
 // (malloc/realloc) and error cases such as memory shortages or invalid inputs.
@@ -142,7 +144,7 @@ int userInput_double (double *buffer, char* prompt) {
         return 1; // Error in input
     }
 
-    int value = strtof(input, &endptr);
+    int value = strtod(input, &endptr);
 
     if (errno == ERANGE || (endptr == input) || (*endptr != '\0')) {
         fprintf(stderr, "User-provided input not a valid double.\n");
@@ -162,15 +164,14 @@ bool userInput_yesno (char *buffer, char* prompt) {
     while (true) {
         userInput_c(&zeichen, prompt);
         if (tolower(zeichen) == 'j') {
-            printf("\n"); // Neue Zeile für bessere Lesbarkeit
-            return true; // Ja
+            printf("\n"); // New line for better readability
+            return true; // Yes
         } else if (tolower(zeichen) == 'n') {
-            printf("\n"); // Neue Zeile für bessere Lesbarkeit    
-            return false; // Nein
+            printf("\n"); // New line for better readability    
+            return false; // No
         } else {
-            printf("Ungültige Eingabe. Bitte geben Sie 'j' oder 'n' ein.\n");
-            continue; // Schleife neu starten
+            printf("Ungültige Eingabe! Sie können nur mit 'j' oder 'n' antworten!\n");
+            continue; // Restart loop
         }
-        free(&zeichen); // Freigeben des Puffers, da er nicht mehr benötigt wird
     }
 }
