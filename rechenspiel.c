@@ -101,7 +101,7 @@ int main (int argc, char *argv[]) {
                 break;
         }
     } else if (requestRandom == true) { // Nur, wenn keine (gültigen) Kommandozeilenargumente übergeben wurden
-        if (getYesNo("Möchten Sie mit Zufallszahlen spielen? (j/n): ") == true) {
+        if (userInput_yesno("Möchten Sie mit Zufallszahlen spielen? (j/n): ") == true) {
             playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
         } else {
             playsWithRandomNumbers = false; // Ohne Zufallszahlen spielen
@@ -184,7 +184,7 @@ int main (int argc, char *argv[]) {
             break; // Schleife verlassen, wenn der Benutzer nicht mehr spielen möchte
         }
         
-        if (getYesNo("Möchten Sie noch eine Runde? (j/n): ") == false) { // Abfrage, ob der Benutzer weitermachen möchte
+        if (userInput_yesno("Möchten Sie noch eine Runde? (j/n): ") == false) { // Abfrage, ob der Benutzer weitermachen möchte
             printf("Sie haben %d richtige und %d falsche Antworten in %d Runden gegeben.\n", richtigeAntwort, falscheAntwort, anzahlRunden);
             percentageRichtig = (int)richtigeAntwort * 100 / anzahlRunden; // Prozentuale Angabe der richtigen Antworten
             int steps = percentageRichtig + 1; // Anzahl der Schritte für die Fortschrittsanzeige

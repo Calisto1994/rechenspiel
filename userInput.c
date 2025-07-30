@@ -3,6 +3,7 @@
 #include <string.h>
 #include <limits.h>
 #include <errno.h>
+#include <stdbool.h>
 
 // *** userInput.c - Memory-safe user input functions ***
 // This file contains functions for reading user input in a memory-safe way.
@@ -39,6 +40,7 @@ int userInput_c (char *buffer, char* prompt); // Memory-safe implementation of u
 int userInput_ml (char **buffer, char* prompt); // Memory-safe implementation of user input (multiple lines)
 int userInput_int (int *buffer, char* prompt); // Memory-safe implementation of user input for integers
 int userInput_double (double *buffer, char* prompt); // Memory-safe implementation of user input for doubles
+bool userInput_yesno (char* prompt); // Memory-safe implementation of user input for yes/no questions
 
 // ****** Character input functions ******
 
@@ -128,28 +130,23 @@ int userInput_int (int *buffer, char* prompt) {
     return 0; // Successful input
 }
 
-int userInput_double (double *buffer, char* prompt) {
-    // Varable declarations
-    char *input;
-    char *endptr;
+// ****** Boolean input functions ******
 
-    // User Input
-    if (userInput(&input, prompt) != 0) {
-        printf("Fehler bei der Eingabe.\n");
-        free(input);
-        return 1; // Error in input
+bool userInput_yesno (char* prompt) { // Abfrage ja/nein
+    char zeichen;
+
+    while (true) {
+        userInput_c(&zeichen, prompt);
+        if (tolower(zeichen) == 'j') {
+            printf("\n"); // Neue Zeile für bessere Lesbarkeit
+            return true; // Ja
+        } else if (tolower(zeichen) == 'n') {
+            printf("\n"); // Neue Zeile für bessere Lesbarkeit    
+            return false; // Nein
+        } else {
+            printf("Ungültige Eingabe. Bitte geben Sie 'j' oder 'n' ein.\n");
+            continue; // Schleife neu starten
+        }
+        free(&zeichen); // Freigeben des Puffers, da er nicht mehr benötigt wird
     }
-
-    int value = strtof(input, &endptr);
-
-    if (errno == ERANGE || (endptr == input) || (*endptr != '\0')) {
-        fprintf(stderr, "User-provided input not a valid double.\n");
-        free(input);
-        return 1; // Error in input
-    }
-    errno=0; // Reset errno for the next input
-
-    free(input);
-    *buffer = value;
-    return 0; // Successful input
 }
