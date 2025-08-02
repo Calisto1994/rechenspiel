@@ -13,7 +13,7 @@
 #ifndef PORTABLE
     #include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
 #endif
-#ifndef WIN32 // only for Linux, this won't work on Win32. There, we have to link against libuserInput.dll, but it can be in the apps directory
+#ifdef __unix__ // only for unices, this won't work on Win32. There, we have to link against libuserInput.dll, but it can be in the apps directory
     #include <dlfcn.h> // dynamisches Laden von Bibliotheken
 #endif
 
@@ -37,7 +37,7 @@ bool playsWithRandomNumbers = false; // Variable zur Steuerung, ob mit Zufallsza
 
 int main (int argc, char *argv[]) {
 
-    #ifndef WIN32
+    #ifdef __unix__
         #ifdef PORTABLE
             // Portable binary, also wird libuserInput.so aus dem Verzeichnis der Anwendung geladen, nicht aus dem System heraus
             // Hierbei ist es NICHT nötig, LD_LIBRARY_PATH als Umgebungsvariable zu setzen, da die Anwendung SELBST das
