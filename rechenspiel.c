@@ -10,10 +10,10 @@
 #include "setlocales.h" // Header-Datei für die setLocaleToGerman-Funktion
 #include "cFunctions.h" // Header-Datei für "cFunctions.c"
 #include "progress.h" // Header-Datei für die Fortschrittsanzeige
+#ifndef PORTABLE
+    #include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
+#endif
 #ifndef WIN32 // only for Linux, this won't work on Win32. There, we have to link against libuserInput.dll, but it can be in the apps directory
-    #ifndef PORTABLE
-        #include "userInput.h" // Header-Datei für die speichersichere Implementierung der Nutzereingaben
-    #endif
     #include <dlfcn.h> // dynamisches Laden von Bibliotheken
 #endif
 
@@ -43,6 +43,12 @@ int main (int argc, char *argv[]) {
             // Hierbei ist es NICHT nötig, LD_LIBRARY_PATH als Umgebungsvariable zu setzen, da die Anwendung SELBST das
             // Laden und Linken der Bibliothek übernimmt.
             void* libuserInput = dlopen("./libuserInput.so", RTLD_LAZY);
+            if (!libuserInput) {
+                const char* error;
+                error = dlerror();
+                fprintf(stderr, "Error loading library: %s\n", error);
+                return 1; // Quit with error
+            }
             int (*userInput) (char **buffer, char* prompt) = dlsym(libuserInput, "userInput");
             int (*userInput_c) (char *buffer, char* prompt) = dlsym(libuserInput, "userInput_c");
             int (*userInput_ml) (char **buffer, char* prompt) = dlsym(libuserInput, "userInput_ml");
@@ -81,6 +87,8 @@ int main (int argc, char *argv[]) {
         // Die Variable userSelect wird später in einem Switch-Statement verwendet,
         // um die gewünschte Aktion auszuführen.
 
+        // Wandle das Kommandozeilenargument in einen statischen Puffer, der nicht freigegeben werden muss
+        // außerdem ist dieser ein `char`, kein `char*` und kann somit in einem switch()-Statement eingesetzt werden.
         char userSelect;
         if (strcmp(cmdArg, "random") == 0) userSelect = 'r'; // Mit Zufallszahlen spielen
         else if (strcmp(cmdArg, "--random") == 0) userSelect = 'r'; // Ohne Zufallszahlen spielen
@@ -99,7 +107,7 @@ int main (int argc, char *argv[]) {
             case 'r': // Mit Zufallszahlen spielen
                 printf("Es wird mit Zufallszahlen gespielt.\n");
                 playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
-                requestRandom = false; // Explizite Anforderung von Zufallszahlen            
+                requestRandom = false; // Explizite Anforderung von Zufallszahlen
                 break;
             case 'n': // Ohne Zufallszahlen spielen
                 printf("Es wird ohne Zufallszahlen gespielt.\n");
