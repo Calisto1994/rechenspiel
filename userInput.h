@@ -6,14 +6,17 @@
 #include <string.h>
 #include <limits.h>
 #include <errno.h>
-#include <stdbool.h>
 #include <ctype.h>
+#include <time.h>
+#include <stdbool.h>
+#include "userInput_errors.h"
 
-int userInput (char **buffer, char* prompt); // Speichersichere Implementierung der Nutzereingabe
-int userInput_c (char *buffer, char* prompt); // Speichersichere Implementierung der Nutzereingabe (Einzelzeichen)
-int userInput_ml (char **buffer, char* prompt); // Speichersichere Implementierung der Nutzereingabe (mehrere Zeilen)
-int userInput_int (int *buffer, char* prompt); // Speichersichere Implementierung der Nutzereingabe für Ganzzahlen
-int userInput_double (double *buffer, char* prompt); // Speichersichere Implementierung der Nutzereingabe für Gleitkommazahlen
-bool userInput_yesno (char* prompt); // Speichersichere Implementierung der Nutzereingabe für Ja/Nein-Antworten
+int userInput (char **buffer, char* prompt); // Memory-safe implementation of user input (single line)
+int userInput_c (char *buffer, char* prompt); // Memory-safe implementation of user input (single character)
+int userInput_ml (char **buffer, char* prompt); // Memory-safe implementation of user input (multiple lines)
+int userInput_int (int *buffer, char* prompt); // Memory-safe implementation of user input for integers
+int userInput_double (double *buffer, char* prompt); // Memory-safe implementation of user input for doubles
+int userInput_yesno (bool *buffer, char* prompt, char yesChar, char noChar); // Memory-safe implementation of user input for yes/no questions
+int userInput_version (char **versionInfo, char ***featureList); // query userInput version information
 
 #endif

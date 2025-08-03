@@ -54,9 +54,15 @@ int main (int argc, char *argv[]) {
             int (*userInput_ml) (char **buffer, char* prompt) = dlsym(libuserInput, "userInput_ml");
             int (*userInput_int) (int *buffer, char* prompt) = dlsym(libuserInput, "userInput_int");
             int (*userInput_double) (double *buffer, char* prompt) = dlsym(libuserInput, "userInput_double");
-            bool (*userInput_yesno) (char* prompt) = dlsym(libuserInput, "userInput_yesno");
+            int (*userInput_yesno) (bool *buffer, char* prompt, char yesChar, char noChar) = dlsym(libuserInput, "userInput_yesno");
+            int (*userInput_version) (char **versionInfo, char ***featureList) = dlsym(libuserInput, "userInput_version");
         #endif
     #endif
+
+    char* versionInfo;
+    char** featureList;
+    userInput_version(&versionInfo, &featureList);
+    printf("Umgesetzt mit libuserInput %s\n\n", versionInfo);
 
     bool requestRandom = true; // Variable, um zu überprüfen, ob das Programm mit einem Kommandozeilenargument gestartet wurde
     int minRand = 1; // Minimalwert für Zufallszahlen
@@ -67,6 +73,7 @@ int main (int argc, char *argv[]) {
     int anzahlRunden = 0; // Zähler für die Anzahl der Runden
     int i; // Zähler für Schleifen
     double percentageRichtig = 0.0; // Variable für die prozentuale Angabe der richtigen Antworten
+    bool yesNo; // Puffer für Ja/Nein
 
     srand(time(NULL)); // Initialisierung des Zufallszahlengenerators mit der aktuellen Zeit
 
@@ -130,9 +137,12 @@ int main (int argc, char *argv[]) {
                 break;
         }
     } else if (requestRandom == true) { // Nur, wenn keine (gültigen) Kommandozeilenargumente übergeben wurden
-        if (userInput_yesno("Möchten Sie mit Zufallszahlen spielen? (j/n): ") == true) {
+        while (userInput_yesno(&yesNo, "Möchten Sie mit Zufallszahlen spielen? (j/n): ", 'j', 'n') != 0) (void)0; // wiederhole, bis erfolgreich (j/n)
+        if (yesNo == true) {
+            printf("Gut. Es wird mit Zufallszahlen gespielt.\n");
             playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
         } else {
+            printf("Gut. Es wird ohne Zufallszahlen gespielt.\n");
             playsWithRandomNumbers = false; // Ohne Zufallszahlen spielen
         }
     }
@@ -212,8 +222,9 @@ int main (int argc, char *argv[]) {
             printf("\nAuf Wiedersehen!\n");
             break; // Schleife verlassen, wenn der Benutzer nicht mehr spielen möchte
         }
-        
-        if (userInput_yesno("Möchten Sie noch eine Runde? (j/n): ") == false) { // Abfrage, ob der Benutzer weitermachen möchte
+
+        while (userInput_yesno(&yesNo, "Möchten Sie noch eine Runde spielen? (j/n): ", 'j', 'n') != 0) (void)0;
+        if (yesNo == false) { // Abfrage, ob der Benutzer weitermachen möchte
             printf("Sie haben %d richtige und %d falsche Antworten in %d Runden gegeben.\n", richtigeAntwort, falscheAntwort, anzahlRunden);
             percentageRichtig = (int)richtigeAntwort * 100 / anzahlRunden; // Prozentuale Angabe der richtigen Antworten
             int steps = percentageRichtig + 1; // Anzahl der Schritte für die Fortschrittsanzeige
