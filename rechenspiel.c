@@ -62,9 +62,10 @@ int main (int argc, char *argv[]) {
     char* versionInfo;
     char** featureList;
     userInput_version(&versionInfo, &featureList);
-    printf("Umgesetzt mit libuserInput %s\n\n", versionInfo);
-    if (!strcmp(versionInfo, "v2.0-dev"))
+    printf("Umgesetzt mit libuserInput %s\n", versionInfo);
+    if (strcmp(versionInfo, "v2.0-dev") != 0)
             fprintf(stderr, "Warnung: Abweichende Version von libuserInput - möglicherweise funktioniert diese hier nicht korrekt!\n");
+    printf("\n");
 
     bool requestRandom = true; // Variable, um zu überprüfen, ob das Programm mit einem Kommandozeilenargument gestartet wurde
     int minRand = 1; // Minimalwert für Zufallszahlen
