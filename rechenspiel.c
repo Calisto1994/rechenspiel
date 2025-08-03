@@ -137,7 +137,7 @@ int main (int argc, char *argv[]) {
                 break;
         }
     } else if (requestRandom == true) { // Nur, wenn keine (gültigen) Kommandozeilenargumente übergeben wurden
-        while (userInput_yesno(&yesNo, "Möchten Sie mit Zufallszahlen spielen? (j/n): ", 'j', 'n') != 0) (void)0; // wiederhole, bis erfolgreich (j/n)
+        while (userInput_yesno(&yesNo, "Möchten Sie mit Zufallszahlen spielen? (j/n): ", 'j', 'n') != 0) printf("Fehler: Bitte nur mit j/n antworten\n");
         if (yesNo == true) {
             printf("Gut. Es wird mit Zufallszahlen gespielt.\n");
             playsWithRandomNumbers = true; // Mit Zufallszahlen spielen
@@ -223,7 +223,7 @@ int main (int argc, char *argv[]) {
             break; // Schleife verlassen, wenn der Benutzer nicht mehr spielen möchte
         }
 
-        while (userInput_yesno(&yesNo, "Möchten Sie noch eine Runde spielen? (j/n): ", 'j', 'n') != 0) (void)0;
+        while (userInput_yesno(&yesNo, "Möchten Sie noch eine Runde spielen? (j/n): ", 'j', 'n') != 0) printf("Fehler: Bitte nur mit j/n antworten\n");
         if (yesNo == false) { // Abfrage, ob der Benutzer weitermachen möchte
             printf("Sie haben %d richtige und %d falsche Antworten in %d Runden gegeben.\n", richtigeAntwort, falscheAntwort, anzahlRunden);
             percentageRichtig = (int)richtigeAntwort * 100 / anzahlRunden; // Prozentuale Angabe der richtigen Antworten
